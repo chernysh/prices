@@ -1,3 +1,3 @@
-(function  () {
-	alert('aw;dkaliwd');
-})
+function as () {
+	alert('Check');
+}
