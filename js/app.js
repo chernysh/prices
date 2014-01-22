@@ -10,11 +10,13 @@
         return _.template( $('#' + id).html() );
     };
     
+    Backbone.history.start({pushState: true, root: '/prices/index.html/'});
 		
+
 
    App.Router = Backbone.Router.extend({
         routes: {
-            'list/:id/*some' : 'listPage'
+            'list/:id(/)*some' : 'listPage'
         },
 
         listPage: function  (id) {
@@ -28,7 +30,11 @@
     });
 
    	listRout = new App.Router();
-    Backbone.history.start();
+
+   
+
+   
+   
 
    	 App.Views.OneModel = Backbone.View.extend({
        tagName: 'div class = "alarmModel"',
@@ -50,7 +56,7 @@
 
     	render: function  () {
     		var template = this.template(this.model.toJSON());
-    		//console.log(this.template(this.model.toJSON()));
+    		
     		this.$el.html(template);
     		
     		return this;
@@ -109,28 +115,28 @@
     			title: 'Lorem ipsum dolor1.',
     			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, porro.',
     			src: 'data/img/1.jpg',
-    			href: '#list/1/'
+    			href: 'list/1/'
     		},
     		{
     			id: 2,
     			title: 'Lorem ipsum dolor2.',
     			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, porro.',
     			src: 'data/img/1.jpg',
-    			href: '#list/2/'
+    			href: 'list/2/'
     		},
     		{
     			id: 3,
     			title: 'Lorem ipsum dolor3.',
     			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, porro.',
     			src: 'data/img/1.jpg',
-    			href: '#list/3/'
+    			href: 'list/3/'
     		},
     		{
     			id: 4,
     			title: 'Lorem ipsum dolor4.',
     			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, porro.',
     			src: 'data/img/1.jpg',
-    			href: '#list/4/'
+    			href: 'list/4/'
     		}
     		
     	]);
