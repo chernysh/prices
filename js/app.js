@@ -1,5 +1,5 @@
 (function  () {
-	window.App = {
+	App = {
 		Models: {},
 		Views: {},
 		Collections: {},
@@ -9,17 +9,56 @@
 	window.template = function(id) {
         return _.template( $('#' + id).html() );
     };
-    
-    Backbone.history.start({pushState: true, root: '/prices/index.html/'});
-		
 
-
-   App.Router = Backbone.Router.extend({
+    App.Router = Backbone.Router.extend({
         routes: {
-            'list/:id(/)*some' : 'listPage'
+            '': 'index',
+            'list/:id': 'listPage'
+        },
+
+        index: function() {
+                App.Collections.Alarms = Backbone.Collection.extend({model: App.Models.Alarm});
+
+                var alarmsCollection = new App.Collections.Alarms([
+                {
+                    id: 1,
+                    title: 'Lorem ipsum dolor1.',
+                    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, porro.',
+                    src: 'data/img/1.jpg'
+                },
+                {
+                    id: 2,
+                    title: 'Lorem ipsum dolor2.',
+                    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, porro.',
+                    src: 'data/img/1.jpg'
+                },
+                {
+                    id: 3,
+                    title: 'Lorem ipsum dolor3.',
+                    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, porro.',
+                    src: 'data/img/1.jpg'
+                },
+                {
+                    id: 4,
+                    title: 'Lorem ipsum dolor4.',
+                    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, porro.',
+                    src: 'data/img/1.jpg'
+                }
+            
+                ]);
+
+                var alarmModel = new App.Models.Alarm({});
+                var alarmModelView = new App.Views.Alarm({model:alarmModel});       
+                alarmView = new App.Views.Alarms({collection:alarmsCollection});
+                alarmView.render();
+
+                var alarmViewList = new App.Views.ListAlarms({collection:alarmsCollection});
+                $('.sidebar').html(alarmViewList.render().el);
         },
 
         listPage: function  (id) {
+
+            console.log(id);
         	
             var NumberModel = id - 1;
            
@@ -29,21 +68,14 @@
         }
     });
 
-   	listRout = new App.Router();
-
-   
-
-   
-   
-
-   	 App.Views.OneModel = Backbone.View.extend({
+   	App.Views.OneModel = Backbone.View.extend({
        tagName: 'div class = "alarmModel"',
        render: function  () {
            this.$el.html('<H2>' + this.model.get('title') + '</H2>');
          
            this.$el.append('<p>' + this.model.get('description') + '</p>');
           
-           this.$el.append('<a href="http://localhost/prices/index.html">На головну</a>');
+           this.$el.append('<a href="/">На головну</a>');
            return this;
        }  
     });
@@ -107,46 +139,16 @@
 
     });
 
-    App.Collections.Alarms = Backbone.Collection.extend({model: App.Models.Alarm});
 
-    var alarmsCollection = new App.Collections.Alarms([
-    		{
-    			id: 1,
-    			title: 'Lorem ipsum dolor1.',
-    			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, porro.',
-    			src: 'data/img/1.jpg',
-    			href: 'list/1/'
-    		},
-    		{
-    			id: 2,
-    			title: 'Lorem ipsum dolor2.',
-    			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, porro.',
-    			src: 'data/img/1.jpg',
-    			href: 'list/2/'
-    		},
-    		{
-    			id: 3,
-    			title: 'Lorem ipsum dolor3.',
-    			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, porro.',
-    			src: 'data/img/1.jpg',
-    			href: 'list/3/'
-    		},
-    		{
-    			id: 4,
-    			title: 'Lorem ipsum dolor4.',
-    			description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, porro.',
-    			src: 'data/img/1.jpg',
-    			href: 'list/4/'
-    		}
-    		
-    	]);
+    var app = new App.Router();
+    Backbone.history.start({pushState: true, root:'/'});
 
-	    var alarmModel = new App.Models.Alarm({});
-    	var alarmModelView = new App.Views.Alarm({model:alarmModel});    	
-    	var alarmView = new App.Views.Alarms({collection:alarmsCollection});
-    	alarmView.render();
-
-    	var alarmViewList = new App.Views.ListAlarms({collection:alarmsCollection});
-    	$('.sidebar').html(alarmViewList.render().el);
+$(document).on("click", "a[href^='/']", function(event) {
+  if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
+    event.preventDefault();
+    var url = $(event.currentTarget).attr("href").replace(/^\//, "");
+    app.navigate(url, { trigger: true });
+  }
+});
 
 })()
