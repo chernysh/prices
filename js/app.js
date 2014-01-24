@@ -50,21 +50,16 @@
                 var alarmModel = new App.Models.Alarm({});
                 var alarmModelView = new App.Views.Alarm({model:alarmModel});       
                 alarmView = new App.Views.Alarms({collection:alarmsCollection});
-                alarmView.render();
-
+                $('.row').html('');
+                alarmView.render().el;
                 var alarmViewList = new App.Views.ListAlarms({collection:alarmsCollection});
                 $('.sidebar').html(alarmViewList.render().el);
         },
 
         listPage: function  (id) {
-
-            console.log(id);
-        	
             var NumberModel = id - 1;
-           
             var oneList = new App.Views.OneModel({model: alarmView.collection.models[NumberModel]});    
             $('.row').html(oneList.render().el);
-            
         }
     });
 
@@ -72,9 +67,7 @@
        tagName: 'div class = "alarmModel"',
        render: function  () {
            this.$el.html('<H2>' + this.model.get('title') + '</H2>');
-         
            this.$el.append('<p>' + this.model.get('description') + '</p>');
-          
            this.$el.append('<a href="/">На головну</a>');
            return this;
        }  
@@ -88,9 +81,7 @@
 
     	render: function  () {
     		var template = this.template(this.model.toJSON());
-    		
     		this.$el.html(template);
-    		
     		return this;
     	}
 
@@ -105,7 +96,6 @@
 
     	addOne: function  (alarm) {
     		var alarmView = new App.Views.Alarm({model: alarm});
-    		
     		this.$el.append(alarmView.render().el);
     		return this;
     	}
