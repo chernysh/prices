@@ -60,15 +60,18 @@
             var NumberModel = id - 1;
             var oneList = new App.Views.OneModel({model: alarmView.collection.models[NumberModel]});    
             $('.row').html(oneList.render().el);
+            var myLine = new Chart($("#chartAlarm")[0].getContext("2d")).Line(lineChartData);
         }
     });
 
    	App.Views.OneModel = Backbone.View.extend({
-      	el: '.oneModel',
+      	tagName: 'div class="oneModel"',
       	template: template('oneModelTemplate'),
        	render: function  () {
+
            var template = this.template(this.model.toJSON());
            this.$el.html(template);
+           console.log($('#chartAlarm')[0]);
            return this;
        }  
     });
@@ -140,5 +143,28 @@ $(document).on("click", "a[href^='/']", function(event) {
     app.navigate(url, { trigger: true });
   }
 });
+
+var lineChartData = {
+       labels : ["20","21","22","23","24","25","26","27","28","29","30","31"],
+       datasets : [
+               {
+                       fillColor : "rgba(220,220,220,0.5)",
+                       strokeColor : "rgba(220,220,220,1)",
+                       pointColor : "rgba(220,220,220,1)",
+                       pointStrokeColor : "#fff",
+                       data : [65,59,90,81,56,55,40,40,40,40,40,40]
+              },
+              {
+                      fillColor : "rgba(151,187,205,0.5)",
+                      strokeColor : "rgba(151,187,205,1)",
+                      pointColor : "rgba(151,187,205,1)",
+                      pointStrokeColor : "#fff",
+                      data : [28,48,40,19,96,27,100,40,40,35,40,40]
+              }
+      ]
+ 
+ };
+ 
+//var myLine = new Chart($("#chartAlarm")[0].getContext("2d")).Line(lineChartData);
 
 })()
