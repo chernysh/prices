@@ -64,11 +64,11 @@
     });
 
    	App.Views.OneModel = Backbone.View.extend({
-       tagName: 'div class = "alarmModel"',
-       render: function  () {
-           this.$el.html('<H2>' + this.model.get('title') + '</H2>');
-           this.$el.append('<p>' + this.model.get('description') + '</p>');
-           this.$el.append('<a href="/">На головну</a>');
+      	el: '.oneModel',
+      	template: template('oneModelTemplate'),
+       	render: function  () {
+           var template = this.template(this.model.toJSON());
+           this.$el.html(template);
            return this;
        }  
     });
